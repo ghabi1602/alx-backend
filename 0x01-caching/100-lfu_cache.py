@@ -14,20 +14,21 @@ class LFUCache(BaseCaching):
         if key is None or item is None:
             return
         self.cache_data[key] = item
-        if key in self.rank:
+        exist = False
+        for tp in self.rank:
+            if key == tp[0]:
+                exist = True
+                break
+        if exist:
             for i, tup in enumerate(self.rank):
                 if key == tup[0]:
                     self.rank[i] = (tup[0], tup[1] + 1)
                     break
         else:
-            my_tuple = (key, 0)
-            self.rank.append(my_tuple)
+            self.rank.append((key, 0))
 
         if len(self.cache_data) > self.MAX_ITEMS:
-            aux = self.rank[0]
-            for i, tup in enumerate(self.rank):
-                if tup[1] < aux[1]:
-                    aux = tup
+            aux = aux = min(self.rank, key=lambda x: x[1])
             
             self.rank.remove(aux)
             del self.cache_data[aux[0]]
@@ -39,6 +40,6 @@ class LFUCache(BaseCaching):
             return None
         for i, tup in enumerate(self.rank):
             if key == tup[0]:
-                my_tup = (tup[0], tup[1] + 1)
-                self.rank[i] = my_tup
+                self.rank[i] = (tup[0], tup[1] + 1)
+                break
         return self.cache_data[key]
