@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 
 class Config:
+    """class Config that defines the babel configuration on our app"""
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
@@ -19,6 +20,7 @@ app.config.from_object(Config)
 
 @app.route('/', strict_slashes=False)
 def home():
+    """home route func definition"""
     return render_template('1-index.html')
 
 
