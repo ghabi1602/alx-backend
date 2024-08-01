@@ -24,12 +24,11 @@ def get_locale():
     return request.accept_languages.best_match(app.Config[LANGUAGES])
 
 
-home_title = _("Welcome to Holberton")
-home_header = _("Hello World!")
-
 @app.route('/', strict_slashes=False)
 def home():
     """returns the home page of our app"""
+    home_title = _("home_title")
+    home_header = _("home_header")
     return render_template('3-index.html', home_title=home_title, home_header=home_header)
 
 
