@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """a module that instantiates and configures a babel extension"""
 from flask_babel import Babel
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 
 app = Flask(__name__)
