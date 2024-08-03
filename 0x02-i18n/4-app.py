@@ -21,7 +21,8 @@ app.config.from_object(Config)
 @babel.localeselector
 def get_locale():
     """gets the locale language"""
-    if 'locale' in request.args:
+    locale = request.args.get('locale')
+    if locale in app.Config['LANGUAGES']:
         return request.args[locale]
     return request.accept_languages.best_match(app.Config[LANGUAGES])
 
@@ -29,13 +30,7 @@ def get_locale():
 @app.route('/', strict_slashes=False)
 def home():
     """returns the home page of our app"""
-    home_title = _("home_title")
-    home_header = _("home_header")
-    return render_template(
-            '4-index.html',
-            home_title=home_title,
-            home_header=home_header
-            )
+    return render_template('4-index.html')
 
 
 if __name__ == '__main__':
