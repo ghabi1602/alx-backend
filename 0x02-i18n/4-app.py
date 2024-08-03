@@ -23,7 +23,7 @@ def get_locale():
     """gets the locale language"""
     locale = request.args.get('locale')
     if locale in app.Config['LANGUAGES']:
-        return request.args[locale]
+        return locale
     return request.accept_languages.best_match(app.Config[LANGUAGES])
 
 
@@ -34,4 +34,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port='5000')
