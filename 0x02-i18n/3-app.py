@@ -1,40 +1,42 @@
 #!/usr/bin/env python3
-"""a module that instantiates and configures a babel extension"""
-from flask_babel import Babel, _
-from flask import Flask, request, render_template
+"""
+Flask app
+"""
+from flask import (
+    Flask,
+    render_template,
+    request
+)
+from flask_babel import Babel
+
+
+class Config(object):
+    """
+    Configuration for Babel!!
+    """
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
 app = Flask(__name__)
-
-
-class Config:
-    """class that defines our app's babel configuration"""
-    LANGUAGES = ['en', 'fr']
-    BABEL_DEFAULT_LOCALE = 'en'
-    BABEL_DEFAULT_TIMEZONE = 'UTC'
-
-
 app.config.from_object(Config)
 babel = Babel(app)
 
 
 @babel.localeselector
 def get_locale():
-    """gets the locale language"""
-    return request.accept_languages.best_match(app.Config[LANGUAGES])
+    """
+    Select and return best language match based on supported languages
+    """
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/', strict_slashes=False)
-def index():
-    """returns the home page of our app"""
-    home_title = _("home_title")
-    home_header = _("home_header")
-    return render_template(
-            '3-index.html',
-            home_title=home_title,
-            home_header=home_header
-            )
+def index() -> str:
+    """It Handles / route"""
+    return render_template('3-index.html')
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(port="5000", host="0.0.0.0", debug=True)
